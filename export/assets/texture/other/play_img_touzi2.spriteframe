@@ -1,0 +1,21 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "play_img_touzi2",
+    "texture": "assets/texture/other/play_img_touzi2.png",
+    "rect": [
+      0,
+      0,
+      80,
+      87
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      80,
+      87
+    ]
+  }
+}

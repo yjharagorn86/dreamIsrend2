@@ -1,0 +1,28 @@
+{
+  "appKey": "",
+  "appSecret": "",
+  "encryptJs": true,
+  "excludeScenes": [],
+  "includeAnySDK": false,
+  "includeSDKBox": false,
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "jailbreakPlatform": false,
+  "md5Cache": false,
+  "mergeStartScene": false,
+  "oauthLoginServer": "",
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.dreamIsrend",
+  "privateKey": "",
+  "renderMode": "0",
+  "startScene": "c3aedf0e-48be-49b6-8d2c-c6c6eaec8b6c",
+  "title": "dreamIsrend",
+  "webOrientation": "auto",
+  "xxteaKey": "b7c84ce3-7930-4d"
+}

@@ -1,0 +1,21 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "play_hero_btn3",
+    "texture": "assets/texture/other/play_hero_btn3.png",
+    "rect": [
+      0,
+      0,
+      120,
+      120
+    ],
+    "offset": [
+      -0.5,
+      0.5
+    ],
+    "originalSize": [
+      121,
+      121
+    ]
+  }
+}

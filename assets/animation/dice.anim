@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "dice",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.25,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "114b553d-3e1c-45a9-9eb4-c4c6add9587a"
+            }
+          },
+          {
+            "frame": 0.06666666666666667,
+            "value": {
+              "__uuid__": "be469d71-2720-4ec7-ba17-ac19a47b6a65"
+            }
+          },
+          {
+            "frame": 0.15,
+            "value": {
+              "__uuid__": "9c41e82c-f7de-4df1-b74b-f998a0f077e2"
+            }
+          },
+          {
+            "frame": 0.23333333333333334,
+            "value": {
+              "__uuid__": "1926a9c2-3cc5-4edd-97b0-33156a26811b"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

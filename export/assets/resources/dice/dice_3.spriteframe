@@ -1,0 +1,21 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "dice_3",
+    "texture": "assets/resources/dice/dice_3.png",
+    "rect": [
+      4,
+      2,
+      90,
+      91
+    ],
+    "offset": [
+      -1,
+      2.5
+    ],
+    "originalSize": [
+      100,
+      100
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "hero2_1",
+    "texture": "assets/resources/hero/hero2_1.png",
+    "rect": [
+      1,
+      0,
+      61,
+      91
+    ],
+    "offset": [
+      0.5,
+      0
+    ],
+    "originalSize": [
+      62,
+      91
+    ]
+  }
+}
