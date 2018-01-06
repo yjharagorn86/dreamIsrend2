@@ -1,4 +1,3 @@
-
 cc.Class({
     extends: cc.Component,
 
@@ -26,12 +25,7 @@ cc.Class({
         //添加监听
         this.node.on('dice_finish', this.onDiceFinish, this);
         this.node.on('player_move', this.onPlayerMove, this);
-        cc.log("杨江辉");
-        cc.log(HeroState.HOME);
-        cc.log(HeroState);
-        
         this.circleStep = [8, 16];
-        return;
         //地图位置
         this.positions = [];
         let pos = []
@@ -77,8 +71,8 @@ cc.Class({
 
     },
     start() {
-        // this._players[0].init(2);
-        // this._players[1].init(1);
+        this._players[0].init(2);
+        this._players[1].init(1);
     },
     onDiceFinish(event) {
         // this.btnRightDice.interactable = false;
@@ -175,17 +169,17 @@ cc.Class({
     },
     //获取下一步的位置
     getNextStepPos(pos, step) {
-
+        var circleIndex = 0;
         if (pos < 0) {
             pos = pos + this.circleStep[0];
         } else {
             circleIndex = this.getCircleIndex(pos);
         }
-        var steps = this.circleStep[circleIndex]+lastCircleStep;
+        var steps = this.circleStep[circleIndex] + lastCircleStep;
         cc.log("lastCircleStep" + lastCircleStep);
         pos = (pos + step) % steps
-        if(pos<lastCircleStep){
-            pos+=lastCircleStep;
+        if (pos < lastCircleStep) {
+            pos += lastCircleStep;
         }
         cc.log(pos)
 

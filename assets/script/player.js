@@ -1,4 +1,4 @@
-var HeroState = require('../script/hero-state');
+
 
 cc.Class({
     extends: cc.Component,
@@ -56,6 +56,7 @@ cc.Class({
     },
     //清除选中总
     clearChoices() {
+        cc.log(this.heros)
         for (var index = 0; index < this.heros.length; index++) {
             this.heros[index].isChoise = false;
         }
