@@ -28,7 +28,7 @@ cc.Class({
         this.nodeMap = cc.find("Canvas/map");
         cc.log(this.btnDice);
         cc.log(this.nodeMap);
-        
+        // this.spriteFrames= ResLoader.loadImg("");
     },
     // getNum:function(){
     //     this._num= Math.random()*6+1
@@ -60,8 +60,10 @@ cc.Class({
         var finished = cc.callFunc(function () {
             this._num =  Math.floor(Math.random() * 6) + 1;
             // anim.stop();
-            // cc.log(this.spriteFrames);
+            cc.log(this.spriteFrames);
             this._pic.spriteFrame = this.spriteFrames[this._num - 1];
+            // cc.log(thi);
+
             this.particleNode.active=false;
             this.btnDice.stopAllActions();
             this.btnDice.scale=1.0;
