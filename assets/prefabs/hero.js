@@ -1,3 +1,4 @@
+var resLoader = require('../script/res-loader');
 var heroScale = [1.0, 1.2, 1.4]
 cc.Class({
     extends: cc.Component,
@@ -27,21 +28,17 @@ cc.Class({
         this.map = cc.find("Canvas/map").getComponent("map");
         this.homePosition = this.node.getPosition();
         var self = this;
-        this.spHero.node.on('click',()=>{
-            this.doChoice();
-        });
-        //  function (event) {
-        //     cc.log("click")
-           
-        // }, this);
+        this.spHero.node.on('click', function (event) {
+            cc.log("click")
+            self.player.clearChoices();
+            self.isChoise = true;
+            var btn = self.spHero.getComponent(cc.Button);
+            btn.interactable = false;
+            cc.log(self);
+            self.map.node.emit("player_move");
+
+        }, this);
         this.disableClick();
-    },
-    doChoice(){
-        this.player.clearChoices();
-        this.isChoise = true;
-        var btn = this.spHero.getComponent(cc.Button);
-        btn.interactable = false;
-        this.map.node.emit("player_move");
     },
     //合体
     union(hero) {
@@ -52,8 +49,8 @@ cc.Class({
             beUnion = this;
         }
         doUnion.unions.push(beUnion);
-
-        beUnion.node.active = false;
+        
+        beUnion.node.active =false;
         cc.log("合体成功");
         cc.log(doUnion.unions.length)
         doUnion.node.setScale(heroScale[doUnion.unions.length]);
@@ -78,17 +75,17 @@ cc.Class({
         btn.interactable = true;
     },
     disableClick() {
-
+        
         var btn = this.spHero.getComponent(cc.Button);
         btn.interactable = false;
     },
 
     setHero(id, player) {
-        this._state = EnumHeroState.HOME;
+        this._state = HeroState.HOME;
         this._heroid = id;
         this.mapPos = -1;
         this.beginPos = -1;
-        this.unions = [];
+        this.unions=[];
         this._reSetHeroImage();
         if (this.homePosition) {
             this.node.position = this.homePosition;
@@ -99,38 +96,34 @@ cc.Class({
     _reSetHeroImage() {
         var key = 'hero/hero' + this._heroid + '_' + (this._state + 1);
         var self = this;
-        ResLoader.loadImg(key, function (spriteFrame) {
+        resLoader.loadImg(key, function (spriteFrame) {
             self.spHero.spriteFrame = spriteFrame;
         });
     },
     setState(state) {
-        if (this._state == state) {
+        if (_state == state) {
             return;
         }
         cc.log('hero setState is ' + _state);
-        tis._state = state;
+        _state = state;
         this._reSetHeroImage();
     },
     getState() {
         return this._state;
     },
-    die() {
-        cc.log("hero die");
+    die(){
         this.mapPos = -1;
-        for (var i = 0; i < this.unions.length; i++){
-            this.unions[i].die();
-        }
-        this.unions = [];
-        this.node.setScale(1.0);
-        this.setState(EnumHeroState.HOME);
-        this.node.runAction(cc.jumpTo(1.0, this.homePosition,50,1));
+        this.unions=[];
+        doUnion.node.setScale(1.0);
+        this.setState(HeroState.HOME);
+        this.jumpTo(1.0,this.homePosition);
     },
     //回家
     backHome() {
         this.mapPos = -1;
-        this.unions = [];
+        this.unions=[];
         doUnion.node.setScale(1.0);
-        this.setState(EnumHeroState.SUCCESS);
+        this.setState(HeroState.SUCCESS);
     }
     // called every frame, uncomment this function to activate update callback
     // update: function (dt) {

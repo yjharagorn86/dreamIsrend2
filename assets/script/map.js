@@ -14,42 +14,18 @@ cc.Class({
         // ...
         floorSpriteFrames: [cc.SpriteFrame],
         _players: [],
-        _playingIndex: 0,
-        _countinue: 0,
-        _turnCount: 0, //回合数
-        _killCount: 0, //
-        _dieCount: 0, //
-        _callCount: 0, //
-        labTurnCount: cc.Label,
-        labKillCount: cc.Label,
-        labDieCount: cc.Label,
-        labCallCount: cc.Label,
-        imgStars:[cc.Sprite],
+        _playingIndex: 0
     },
 
     // use this for initialization
     onLoad() {
-        cc._initDebugSetting(cc.DebugMode.INFO);
-
         this.btnDice = cc.find("Canvas/btn_dice");
         this._players[0] = cc.find("player_my", this.node).getComponent('player');
         this._players[1] = cc.find("player_enemy", this.node).getComponent('player');
-        this.labTurnCount = cc.find("top_tip/lab_turn/lab_count", this.node).getComponent('cc.Label');
-        this.labKillCount = cc.find("top_tip/lab_kill/lab_count", this.node).getComponent('cc.Label');
-        this.labDieCount = cc.find("top_tip/lab_die/lab_count", this.node).getComponent('cc.Label');
-        this.labCallCount = cc.find("top_tip/lab_call/lab_count", this.node).getComponent('cc.Label');
-        cc.log(this.imgStars);
-        if(this.imgStars.length == 0){
-            for(var i =0;i<3;i++){
-                this.imgStars[i] = cc.find('top_tip/play_img_starbg_'+(i+1)+'/play_img_star', this.node).getComponent(cc.Sprite);
-                this.imgStars[i].node.active = false;
-            }
-        }
-    
         //添加监听
         this.node.on('dice_finish', this.onDiceFinish, this);
         this.node.on('player_move', this.onPlayerMove, this);
-        this.circleStep = [8, 24];
+        this.circleStep = [8, 16];
         //地图位置
         this.positions = [];
         let pos = []
@@ -66,7 +42,7 @@ cc.Class({
         for (var index = 0; index < 25; index++) {
             var node = new cc.Node("floor");
             var sprite = node.addComponent(cc.Sprite);
-            // sprite.spriteFrame = this.floorSpriteFrames[0];
+            sprite.spriteFrame = this.floorSpriteFrames[0];
             node.position = this.positions[index];
             node.parent = floor;
             // node.zIndex=-1;
@@ -94,41 +70,18 @@ cc.Class({
 
 
     },
-
     start() {
-        this.initData();
-    },
-    initData(){
-        this._players[0].init(1);
-        this._players[1].init(2);
-        this._players[1].isAuto = true;
-
-        this._playingIndex = 0;
-        this._countinue = 0;
-        this._turnCount = 0; //回合数
-        this._killCount = 0; //
-        this._dieCount = 0; //
-        this._callCount = 0; //
-        this.labTurnCount.string = '0';
-        this.labDieCount.string = '0';
-        this.labCallCount.string = '0';
-        this.labKillCount.string = '0';
-        for(var i =0;i<3;i++){
-            this.imgStars[i].node.active = false;
-        }
+        this._players[0].init(2);
+        this._players[1].init(1);
     },
     onDiceFinish(event) {
-        //投到的点数，如果是6的话还可以再投一次
+        // this.btnRightDice.interactable = false;
         this.step = event.detail.msg;
-        if (this.step == 6) {
-            this._countinue = 1;
-        }
         this.btnDice.getComponent(cc.Button).interactable = false;
         cc.log(this._players[this._playingIndex]);
         var player = this.getCurPlayer();
         // console.log(player);
         player.turnToChoice();
-
         this.hadMove = false;
         this.hadKill = false;
         this.hadJump = false;
@@ -149,56 +102,18 @@ cc.Class({
         //判断是否可以起飞
         if (hero.beginPos == 7) {
             hero.beginPos++;
-            hero.mapPos = hero.beginPos;
             var jumpTo = cc.jumpTo(0.5, this.positions[hero.beginPos], 20, 1);
             hero.node.runAction(jumpTo);
         }
-        //判断是否到达终点
-        if (hero.beginPos == 20) {
-            // 到达终点
+        //判断有没有东西可以吃
+        //判断有没有敌人，有则直接杀
 
-            return;
-        }
         //判断是否可以合体
         var player = this.getCurPlayer();
         player.judgeUion(hero);
-        //判断有没有东西可以吃
-        //判断有没有敌人，有则直接杀
-        if (this.judegeKill(hero, hero.mapPos) || this._countinue != 0) {
-            this.onTurnStart();
-            //成功击杀
-            //可以继续投一次
-            // this.btnDice.getComponent(cc.Button).interactable = true;
-            return;
-        }
-
-        //判断是否回合结束,
-        this.onTurnOver()
+        this.btnDice.getComponent(cc.Button).interactable = true;
 
 
-
-    },
-    onTurnStart() {
-        this._countinue > 0 ? --this._countinue : this._countinue;
-        var player = this.getCurPlayer();
-        if (player.seatID == 1) {
-            this.btnDice.getComponent(cc.Button).interactable = true;
-        }
-        player.turnToDice();
-    },
-    onTurnOver() {
-        //展示回合结束
-        var player = this.getCurPlayer();
-        player.disableHero();
-        player.clearChoices();
-        this._playingIndex = (++this._playingIndex) % this._players.length;
-        player = this.getCurPlayer();
-        //轮到新的人投
-        this.doDelayFun(this.onTurnStart, 1);
-    },
-    //延迟调用
-    doDelayFun(callback, delayTime) {
-        cc.director.getScheduler().schedule(callback, this, 0, 0, delayTime, false);
     },
     showTip(str) {
 
@@ -218,12 +133,11 @@ cc.Class({
             this.onMoveStop(hero, beginPos);
             return;
         }
+        cc.log("跳跃前" + beginPos);
         beginPos = this.getNextStepPos(beginPos, stepDirection);
-
+        cc.log("跳跃后" + beginPos);
         hero.beginPos = beginPos;
         stepDirection = this.judgeMove(hero, beginPos, stepDirection);
-        cc.log("跳跃方向");
-        cc.log(stepDirection);
         var jumpTo = cc.jumpTo(0.5, this.positions[beginPos], 20, 1);
         var callback = cc.callFunc(function (target, args) {
             this.jumpByStep(hero, args[0], args[1]);
@@ -231,7 +145,7 @@ cc.Class({
         hero.node.runAction(cc.sequence(jumpTo, callback));
     },
     calStopPos(hero, moveSteps) {
-        if (hero.getState() == EnumHeroState.SUCCESS)
+        if (hero.getState() == HeroState.SUCCESS)
             return -1;
         //暂时不考虑阻路的道具
         var pos = hero.mapPos;
@@ -242,8 +156,11 @@ cc.Class({
             if (this.judgeObstacle(pos)) {
                 return pos;
             }
+            cc.log(pos)
+
             step = this.judgeMove(hero, pos, step);
 
+            cc.log(pos)
         }
         if (pos == 7) {
             pos = 8;
@@ -252,12 +169,20 @@ cc.Class({
     },
     //获取下一步的位置
     getNextStepPos(pos, step) {
-        var circleIndex = this.getCircleIndex(pos);
-        var steps = this.circleStep[circleIndex];
-        pos = (pos + step + steps) % steps;
-        if (pos == 0 && circleIndex == 1) {
-            pos = 8;
+        var circleIndex = 0;
+        if (pos < 0) {
+            pos = pos + this.circleStep[0];
+        } else {
+            circleIndex = this.getCircleIndex(pos);
         }
+        var steps = this.circleStep[circleIndex] + lastCircleStep;
+        cc.log("lastCircleStep" + lastCircleStep);
+        pos = (pos + step) % steps
+        if (pos < lastCircleStep) {
+            pos += lastCircleStep;
+        }
+        cc.log(pos)
+
         return pos;
     },
     getCircleIndex(pos) {
@@ -292,34 +217,11 @@ cc.Class({
             if (other == null) {
                 continue;
             }
-            if (other.unions.length > hero.unions.length) {
+            if (other.togetherCount > hero.togetherCount) {
                 return -step;
             }
         }
         return step;
-    },
-    //判断是否可以杀人
-    judegeKill(hero, pos) {
-        for (var tempIndex = 0; tempIndex < this._players.length; tempIndex++) {
-            var element = this._players[tempIndex];
-            if (element == hero.player) {
-                continue;
-            }
-            cc.log("judgeMove " + pos);
-            var other = element.getHeroByPos(pos)
-            if (other == null) {
-                continue;
-            }
-            if (other.unions.length <= hero.unions.length) {
-                other.die();
-                this._countinue = 1;
-                return true;
-            } else {
-                hero.die();
-                this._countinue = 0;
-            }
-        }
-        return false;
     },
     initPlayer() {
 

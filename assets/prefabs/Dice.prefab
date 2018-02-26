@@ -63,8 +63,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 32,
-      "y": -43
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -365,33 +365,14 @@
     "playOnLoad": false
   },
   {
-    "__type__": "8ca590yeAVGga4Q6XK7qIUF",
+    "__type__": "741f1q976hOJ68Dn0OI13HE",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "spriteFrames": [
-      {
-        "__uuid__": "5cd3c5e7-fb42-41dc-9714-14dd8f631f81"
-      },
-      {
-        "__uuid__": "94bc633a-654d-4a62-a4f9-151b9c2d92a9"
-      },
-      {
-        "__uuid__": "1af0b690-851c-4995-96b1-c89bf80682c7"
-      },
-      {
-        "__uuid__": "6b1e54c4-59ab-4105-a9ca-3b8448852d23"
-      },
-      {
-        "__uuid__": "21de9926-1bfa-4087-ae89-69e7d8adf46b"
-      },
-      {
-        "__uuid__": "62006cf9-973d-4445-9193-769faea26f60"
-      }
-    ],
+    "spriteFrames": [],
     "particleNode": {
       "__id__": 2
     },
